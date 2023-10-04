@@ -15,14 +15,29 @@ class SendBeaconCollector extends BaseCollector {
         }
     }
 
+
     /**
-     * @returns {Promise<string>}
+     * @returns {Promise<String>}
      */
     async getData() {
-
-
-        return "sendBeacon data found"
+        //await this._cdpClient.send('Page.enable');
+        //await this._cdpClient.send('Page.enable');
+        /*const d = await this._cdpClient.send('Debugger.enable');
+        console.log(d);
+        const test = await this._cdpClient.send('Debugger.setBreakpointOnFunctionCall', {objectId: '1'})
+        console.log(test)*/
+        //await this._cdpClient.send('Browser.close');
+        //await this._cdpClient.send('Page.navigate', {url: "https://localhost"});
+        await this._cdpClient.send('Page.close', {runBeforeUnload: true});
+        await this._cdpClient.send('Page.disable');
+        //await this._cdpClient.send('Page.reload');
+        return "test"
     }
+
+    async postLoad() {
+    }
+
 }
 
 module.exports = SendBeaconCollector;
+
