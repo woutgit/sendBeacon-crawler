@@ -1,5 +1,5 @@
 # sendBeacon tracker collector
-This repository is an extension of the code of DuckDuckGo's Tracker Radar Collector. For more details about this project visit the [project's homepage](https://github.com/duckduckgo/tracker-radar-collector).  
+This repository is an extension of the code of DuckDuckGo's Tracker Radar Collector. For more details about this project visit the [project's homepage](https://github.com/duckduckgo/tracker-radar-collector).
 It can be used to track sendBeacon calls even when the page is closed.  
 
 ## How do I use it?
