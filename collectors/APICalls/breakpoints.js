@@ -4,6 +4,21 @@
  */
 const breakpoints = [
     {
+        global: 'navigator',
+        props: [],
+        methods: [
+            {name: 'sendbeacon'},
+            {name: 'sendBeacon'}
+        ]
+    },
+    {
+        proto: 'Navigator',
+        props: [],
+        methods: [
+            {name: 'sendBeacon', saveArguments: true}
+        ]
+    },/*
+    {
         global: 'window',
         props: [
             {name: 'devicePixelRatio'}, // screen
@@ -51,7 +66,7 @@ const breakpoints = [
                 test: 'window.matchMedia("(pointer: fine)")'
             }
         ]
-    },
+    }/*,
     {
         proto: 'BarProp',
         props: [
@@ -111,6 +126,13 @@ const breakpoints = [
             }
         ],
         methods: []
+    },
+    {
+        global: 'Navigator',
+        props: [],
+        methods: [
+            {name: 'sendBeacon', saveArguments: true},
+        ]
     },
     {
         proto: 'Document',
@@ -174,11 +196,12 @@ const breakpoints = [
         methods: [
             {name: 'getBattery'},
             {name: 'getGamepads'},
+            {name: 'sendBeacon'},
             // {name: 'getUserMedia'},
             {name: 'javaEnabled'},
             {name: 'requestMediaKeySystemAccess'} // Encrypted Media Extensions API
         ]
-    },
+    },/*
     {
         proto: 'NavigatorUAData',
         props: [
@@ -667,7 +690,7 @@ const breakpoints = [
     //     methods: [
     //         {name: 'start'}
     //     ]
-    // }
+    // }*/
 ];
 
 module.exports = breakpoints;
