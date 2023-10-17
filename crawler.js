@@ -263,7 +263,7 @@ async function getSiteData(context, url, {
     }
 
     if (!VISUAL_DEBUG) {
-        await page.close();
+        await page.close({runBeforeUnload: false});
     }
 
     return {

@@ -1,9 +1,9 @@
 const BaseCollector = require('./BaseCollector');
 
-class SendBeaconCollector extends BaseCollector {
+class PageReloadCollector extends BaseCollector {
 
     id() {
-        return 'beacons';
+        return 'reload';
     }
 
     /**
@@ -15,14 +15,19 @@ class SendBeaconCollector extends BaseCollector {
         }
     }
 
+
     /**
-     * @returns {Promise<string>}
+     * @returns {Promise<String>}
      */
     async getData() {
-
-
-        return "sendBeacon data found"
+        await this._cdpClient.send('Page.reload');
+        return "reloaded page";
     }
+
+    async postLoad() {
+    }
+
 }
 
-module.exports = SendBeaconCollector;
+module.exports = PageReloadCollector;
+
