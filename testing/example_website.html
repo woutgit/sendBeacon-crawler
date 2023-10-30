@@ -1,0 +1,22 @@
+<html>
+    <body>
+        <form id="beacon_data">
+            Beacon message:
+            <input placeholder="message..." value="message" id="data">
+            <input type="hidden" id="csrf_token" value="{{csrf_token}}">
+        </form>
+    </body>
+    
+     <script>
+        setTimeout(3000)
+        document.addEventListener("visibilitychange", function () {
+            if (document.visibilityState === "hidden"){
+                let formData = new FormData()
+                formData.append('message', document.getElementById("data").value)
+                formData.append('csrfmiddlewaretoken', document.getElementById("csrf_token").value)
+                navigator.sendBeacon("/beacon", formData)
+                console.log('message send')
+            }
+        })
+    </script>
+</html>

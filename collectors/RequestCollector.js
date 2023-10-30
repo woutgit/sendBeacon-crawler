@@ -7,7 +7,7 @@ const URL = require('url').URL;
 const crypto = require('crypto');
 const {Buffer} = require('buffer');
 
-const DEFAULT_SAVE_HEADERS = ['etag', 'set-cookie', 'cache-control', 'expires', 'pragma', 'p3p', 'timing-allow-origin', 'access-control-allow-origin', 'accept-ch'];
+const DEFAULT_SAVE_HEADERS = ['etag', 'cookie', 'set-cookie', 'cache-control', 'expires', 'pragma', 'p3p', 'timing-allow-origin', 'access-control-allow-origin', 'accept-ch'];
 
 class RequestCollector extends BaseCollector {
 
