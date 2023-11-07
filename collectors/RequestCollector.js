@@ -7,7 +7,7 @@ const URL = require('url').URL;
 const crypto = require('crypto');
 const {Buffer} = require('buffer');
 
-const DEFAULT_SAVE_HEADERS = ['etag', 'cookie', 'set-cookie', 'cache-control', 'expires', 'pragma', 'p3p', 'timing-allow-origin', 'access-control-allow-origin', 'accept-ch'];
+const DEFAULT_SAVE_HEADERS = ['etag', 'set-cookie', 'cache-control', 'expires', 'pragma', 'p3p', 'timing-allow-origin', 'access-control-allow-origin', 'accept-ch'];
 
 class RequestCollector extends BaseCollector {
 
@@ -56,6 +56,7 @@ class RequestCollector extends BaseCollector {
 
         await Promise.all([
             cdpClient.on('Network.requestWillBeSent', r => this.handleRequest(r, cdpClient)),
+            cdpClient.on('Network.requestWillBeSentExtraInfo', r => this.handleRequestExtraInfo(r, cdpClient)),
             cdpClient.on('Network.webSocketCreated', r => this.handleWebSocket(r)),
             cdpClient.on('Network.responseReceived', r => this.handleResponse(r)),
             cdpClient.on('Network.responseReceivedExtraInfo', r => this.handleResponseExtraInfo(r)),
@@ -99,6 +100,33 @@ class RequestCollector extends BaseCollector {
     }
 
     /**
+     * @param {{request: CDPRequest, requestId: RequestId, associatedCookies: Object, headers: Object<string,string>, ConnectTiming: Object, clientSecurityState?: Object, siteHasCookieInOtherPartition?: boolean}} data 
+     * @param {import('puppeteer').CDPSession} cdp
+     */
+    handleRequestExtraInfo(data, cdp) {
+        const {
+            requestId: id,
+            associatedCookies,
+            headers,
+            ConnectTiming,
+            clientSecurityState,
+            siteHasCookieInOtherPartition,
+        } = data
+
+        let request = this.findLastRequestWithId(id);
+
+        if (!request) {
+            this._log('⚠️ unmatched response', id);
+            request = {
+                id,
+            };
+            this._unmatched.set(id, request);
+        }
+
+        request.requestHeaders = normalizeHeaders(headers);
+    }
+
+    /**
      * @param {{initiator: import('../helpers/initiators').RequestInitiator, request: CDPRequest, requestId: RequestId, timestamp: Timestamp, frameId?: FrameId, type?: ResourceType, redirectResponse?: CDPResponse}} data 
      * @param {import('puppeteer').CDPSession} cdp
      */
@@ -110,7 +138,6 @@ class RequestCollector extends BaseCollector {
             redirectResponse,
             timestamp: startTime
         } = data;
-
         let initiator = data.initiator;
         const url = request.url;
         const method = request.method;
@@ -333,6 +360,7 @@ class RequestCollector extends BaseCollector {
                 status: request.status,
                 size: request.size,
                 remoteIPAddress: request.remoteIPAddress,
+                requestHeaders: request.requestHeaders,
                 responseHeaders: request.responseHeaders && filterHeaders(request.responseHeaders, this._saveHeaders),
                 responseBodyHash: request.responseBodyHash,
                 failureReason: request.failureReason,
@@ -356,6 +384,7 @@ module.exports = RequestCollector;
  * @property {string=} redirectedTo
  * @property {number=} status
  * @property {string} remoteIPAddress
+ * @property {string} requestHeaders
  * @property {object} responseHeaders
  * @property {string=} responseBodyHash
  * @property {string} failureReason
@@ -366,20 +395,27 @@ module.exports = RequestCollector;
 /**
  * @typedef InternalRequestData
  * @property {RequestId} id
- * @property {string} url
+ * @property {string=} url
  * @property {HttpMethod=} method
- * @property {ResourceType} type
+ * @property {ResourceType=} type
  * @property {import('../helpers/initiators').RequestInitiator=} initiator
  * @property {string=} redirectedFrom
  * @property {string=} redirectedTo
  * @property {number=} status
  * @property {string=} remoteIPAddress
+ * @property {Object<string,string>=} requestHeaders
  * @property {Object<string,string>=} responseHeaders
  * @property {string=} failureReason
  * @property {number=} size
  * @property {Timestamp=} startTime
  * @property {Timestamp=} endTime
  * @property {string=} responseBodyHash
+ */
+
+/**
+ * @typedef RequestExtraInfoData
+ * @property {RequestId} id
+ * @property {Headers=} headers
  */
 
 /**
