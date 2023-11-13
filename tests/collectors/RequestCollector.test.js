@@ -94,6 +94,7 @@ async function testDefaultSettings() {
         status: 200,
         size: 666,
         remoteIPAddress: '123.123.123.123',
+        requestHeaders: undefined,
         responseHeaders: {
             etag: 'uniqueidhiddenhere',
             'set-cookie': 'cookie monster approves'
@@ -137,6 +138,7 @@ async function testDefaultSettings() {
         status: undefined,
         size: undefined,
         remoteIPAddress: undefined,
+        requestHeaders: undefined,
         responseHeaders: undefined,
         responseBodyHash: undefined,
         failureReason: 'You are in a simulation',
@@ -207,6 +209,7 @@ async function testDefaultSettings() {
         status: 301,
         size: undefined,
         remoteIPAddress: '123.123.123.234',
+        requestHeaders: undefined,
         responseHeaders: {
             etag: 'redirect-etag'
         },
@@ -225,6 +228,7 @@ async function testDefaultSettings() {
         status: 200,
         size: 777,
         remoteIPAddress: '123.123.123.345',
+        requestHeaders: undefined,
         responseHeaders: {
             etag: 'other-script-etag'
         },
@@ -255,6 +259,7 @@ async function testDefaultSettings() {
         status: undefined,
         size: undefined,
         remoteIPAddress: undefined,
+        requestHeaders: undefined,
         responseHeaders: undefined,
         responseBodyHash: undefined,
         failureReason: undefined,
@@ -332,6 +337,7 @@ async function testResponseHashSetting() {
         status: 200,
         size: 666,
         remoteIPAddress: '123.123.123.123',
+        requestHeaders: undefined,
         responseHeaders: {},
         responseBodyHash: '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08',
         failureReason: undefined,
@@ -405,6 +411,7 @@ async function testCustomHeadersSetting() {
         status: 200,
         size: 666,
         remoteIPAddress: '123.123.123.123',
+        requestHeaders: undefined,
         responseHeaders: {
             'x-client-data': 'tracking',
             'test-header': 'hello'

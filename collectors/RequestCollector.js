@@ -56,7 +56,7 @@ class RequestCollector extends BaseCollector {
 
         await Promise.all([
             cdpClient.on('Network.requestWillBeSent', r => this.handleRequest(r, cdpClient)),
-            cdpClient.on('Network.requestWillBeSentExtraInfo', r => this.handleRequestExtraInfo(r, cdpClient)),
+            cdpClient.on('Network.requestWillBeSentExtraInfo', r => this.handleRequestExtraInfo(r)),
             cdpClient.on('Network.webSocketCreated', r => this.handleWebSocket(r)),
             cdpClient.on('Network.responseReceived', r => this.handleResponse(r)),
             cdpClient.on('Network.responseReceivedExtraInfo', r => this.handleResponseExtraInfo(r)),
@@ -101,17 +101,12 @@ class RequestCollector extends BaseCollector {
 
     /**
      * @param {{request: CDPRequest, requestId: RequestId, associatedCookies: Object, headers: Object<string,string>, ConnectTiming: Object, clientSecurityState?: Object, siteHasCookieInOtherPartition?: boolean}} data 
-     * @param {import('puppeteer').CDPSession} cdp
      */
-    handleRequestExtraInfo(data, cdp) {
+    handleRequestExtraInfo(data) {
         const {
             requestId: id,
-            associatedCookies,
             headers,
-            ConnectTiming,
-            clientSecurityState,
-            siteHasCookieInOtherPartition,
-        } = data
+        } = data;
 
         let request = this.findLastRequestWithId(id);
 
