@@ -1,3 +1,4 @@
+// @ts-nocheck
 const puppeteer = require('puppeteer');
 const ProgressBar = require('progress');
 const chalk = require('chalk').default;

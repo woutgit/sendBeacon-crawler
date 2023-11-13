@@ -1,0 +1,90 @@
+{
+  "initialUrl": "http://localtest.me:8000/",
+  "finalUrl": "http://localtest.me:8000/",
+  "timeout": false,
+  "testStarted": 1699888231965,
+  "testFinished": 1699888237117,
+  "data": {
+    "cmps": [],
+    "screenshots": "data/localtest.me_02ca.jpg",
+    "close": "closed page",
+    "cookies": [
+      {
+        "name": "csrftoken",
+        "domain": "localtest.me",
+        "path": "/",
+        "expires": 1731337831998,
+        "session": false,
+        "sameSite": "Lax"
+      }
+    ],
+    "targets": [
+      {
+        "type": "page",
+        "url": "http://localtest.me:8000/"
+      }
+    ],
+    "apis": {
+      "callStats": {
+        "http://localtest.me:8000/": {
+          "Navigator.prototype.sendBeacon": 1
+        }
+      },
+      "savedCalls": [
+        {
+          "source": "http://localtest.me:8000/",
+          "description": "Navigator.prototype.sendBeacon",
+          "arguments": [
+            "/beacon",
+            "[object FormData]"
+          ]
+        }
+      ]
+    },
+    "requests": [
+      {
+        "url": "http://localtest.me:8000/",
+        "method": "GET",
+        "type": "Document",
+        "status": 200,
+        "size": 1275,
+        "remoteIPAddress": "127.0.0.1",
+        "requestHeaders": {
+          "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+          "accept-encoding": "gzip, deflate",
+          "connection": "keep-alive",
+          "host": "localtest.me:8000",
+          "upgrade-insecure-requests": "1",
+          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.63 Safari/537.36"
+        },
+        "responseHeaders": {
+          "set-cookie": "csrftoken=qa1nSZQtc3nyhrdjBIwkwXMG2wkU7Mpxf5qqslTeStLqt1Np9oeiFa2t3clYyh9k; expires=Mon, 11 Nov 2024 15:10:31 GMT; Max-Age=31449600; Path=/; SameSite=Lax"
+        },
+        "responseBodyHash": "b42e9a6f9841866b31bfbe8ab17fda91897abb98d8015c884ae0b9c270d6f4fb",
+        "initiators": [],
+        "time": 0.002276999999594409
+      },
+      {
+        "url": "http://localtest.me:8000/beacon",
+        "method": "POST",
+        "type": "Ping",
+        "requestHeaders": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "connection": "keep-alive",
+          "content-length": "320",
+          "content-type": "multipart/form-data; boundary=----WebKitFormBoundary98OnOPzKPIpJOemd",
+          "cookie": "csrftoken=qa1nSZQtc3nyhrdjBIwkwXMG2wkU7Mpxf5qqslTeStLqt1Np9oeiFa2t3clYyh9k",
+          "host": "localtest.me:8000",
+          "origin": "http://localtest.me:8000",
+          "referer": "http://localtest.me:8000/",
+          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.63 Safari/537.36"
+        },
+        "responseHeaders": {},
+        "initiators": [
+          "http://localtest.me:8000/"
+        ]
+      }
+    ]
+  }
+}

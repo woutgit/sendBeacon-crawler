@@ -55,11 +55,16 @@ class RequestCollector extends BaseCollector {
         await cdpClient.send('Network.enable');
 
         await Promise.all([
+            // @ts-ignore
             cdpClient.on('Network.requestWillBeSent', r => this.handleRequest(r, cdpClient)),
+            // @ts-ignore
             cdpClient.on('Network.requestWillBeSentExtraInfo', r => this.handleRequestExtraInfo(r)),
+            // @ts-ignore
             cdpClient.on('Network.webSocketCreated', r => this.handleWebSocket(r)),
+            // @ts-ignore
             cdpClient.on('Network.responseReceived', r => this.handleResponse(r)),
             cdpClient.on('Network.responseReceivedExtraInfo', r => this.handleResponseExtraInfo(r)),
+            // @ts-ignore
             cdpClient.on('Network.loadingFailed', r => this.handleFailedRequest(r, cdpClient)),
             cdpClient.on('Network.loadingFinished', r => this.handleFinishedRequest(r, cdpClient))
         ]);
@@ -331,6 +336,7 @@ class RequestCollector extends BaseCollector {
             this._log(`⚠️ failed to match ${this._unmatched.size} events`);
         }
 
+        // @ts-ignore
         return this._requests
             .filter(request => {
                 let url;
