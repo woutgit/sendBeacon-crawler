@@ -37,10 +37,9 @@ function openBrowser(log, proxyHost, executablePath) {
             // enable FLoC
             '--enable-blink-features=InterestCohortAPI',
             '--enable-features="FederatedLearningOfCohorts:update_interval/10s/minimum_history_domain_size_required/1,FlocIdSortingLshBasedComputation,InterestCohortFeaturePolicy"',
-            '--js-flags="--async-stack-traces --stack-trace-limit 32"',
+            '--js-flags="--async-stack-traces --stack-trace-limit 32"'
         ]
     };
-    args.headless = "new";
     if (VISUAL_DEBUG) {
         args.headless = false;
         args.devtools = true;
@@ -233,26 +232,12 @@ async function getSiteData(context, url, {
     await page.waitForTimeout(extraExecutionTimeMs);
 
     const finalUrl = page.url();
-
     /**
      * @type {Object<string, Object>}
      */
     const data = {};
-    await get_collectors_data(collectors, data, log, finalUrl, urlFilter, ['screenshots']);
-
-    // go to blank tab to trigger closing of page without removing page object
-    await page.evaluate(() => {
-        window.location.replace("about:blank");
-    });
-
-    get_collectors_data(collectors, data, log, finalUrl, urlFilter, ['apis', 'cmps', 'cookies', 'requests', 'targets']);
-    
 
     for (let collector of collectors) {
-        if (collector.id() === 'screenshots'){
-            continue;
-        }
-
         const getDataTimer = createTimer();
         try {
             // eslint-disable-next-line no-await-in-loop
@@ -278,7 +263,7 @@ async function getSiteData(context, url, {
     }
 
     if (!VISUAL_DEBUG) {
-        await page.close({runBeforeUnload: true});
+        await page.close();
     }
 
     return {
@@ -311,7 +296,7 @@ module.exports = async (url, options) => {
     const log = options.log || (() => {});
     const browser = options.browserContext ? null : await openBrowser(log, options.proxyHost, options.executablePath);
     // Create a new incognito browser context.
-    const context = options.browserContext || await browser.defaultBrowserContext();
+    const context = options.browserContext || await browser.createIncognitoBrowserContext();
 
     let data = null;
 
@@ -343,39 +328,6 @@ module.exports = async (url, options) => {
 
     return data;
 };
-
-
-/**
- * @param {import("./collectors/BaseCollector")[]} collectors
- * @param {Object<string, Object>} data
- * @param {string} [finalUrl]
- * @param {function(string, string):boolean} [urlFilter]
- * @param {function(...any):void} log
- * @param {string[]} [collectorFilter]
- */
-async function get_collectors_data(collectors, data, log, finalUrl, urlFilter, collectorFilter) {
-    for (let collector of collectors) {
-        if (!collectorFilter.includes(collector.id())){
-            continue;
-        }
-        
-        const getDataTimer = createTimer();
-        try {
-            // eslint-disable-next-line no-await-in-loop
-            const collectorData = await collector.getData({
-                finalUrl,
-                urlFilter: urlFilter && urlFilter.bind(null, finalUrl)
-            });
-            data[collector.id()] = collectorData;
-            log(`getting ${collector.id()} data took ${getDataTimer.getElapsedTime()}s`);
-        } catch (e) {
-            log(chalk.yellow(`getting ${collector.id()} data failed`), chalk.gray(e.message), chalk.gray(e.stack));
-            data[collector.id()] = null;
-        }
-    }
-
-    return data;
-}
 
 /**
  * @typedef {Object} CollectResult
