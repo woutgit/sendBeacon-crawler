@@ -1,0 +1,78 @@
+<html>
+    <body>        
+    	<h1>Finger printing values:</h1>
+        <table id="fingerprint" border="1px solid black">
+        	<tr>
+        		<th>attribute</th><th>value</th>
+        	</tr>
+        	<tr>
+        		<td>user agent</td><td>{{user_agent}}</td>
+        	</tr>
+        	<tr>
+        		<td>accept</td><td>{{accept}}</td>
+        	</tr>
+        	<tr>
+        		<td>content encoding</td><td>{{content_encoding}}</td>
+        	</tr>
+        	<tr>
+        		<td>content language</td><td>{{content_language}}</td>
+        	</tr>
+        </table>
+    </body>
+    
+     <script type="text/javascript">
+	function getPlugins(){
+		plugins = "Total plugin installed: "+navigator.plugins.length+"<br/>";
+		plugins += "<ul>";
+		for(var i=0; i<navigator.plugins.length; i++){
+			plugins += "<li>" + navigator.plugins[i].name + "</li>"; 
+		}
+		plugins += "<ul>";
+		return plugins;
+	}
+	function isLocalStorageAvailable(){
+	    var test = 'test';
+	    try {
+		localStorage.setItem(test, test);
+		localStorage.removeItem(test);
+		return true;
+	    } catch(e) {
+		return false;
+	    }
+	}
+	
+	function getWindowSize(){
+            var win = window,
+	    doc = document,
+	    docElem = doc.documentElement,
+	    body = doc.getElementsByTagName('body')[0],
+	    x = win.innerWidth || docElem.clientWidth || body.clientWidth,
+	    y = win.innerHeight|| docElem.clientHeight|| body.clientHeight;
+	    return (x + ' × ' + y);
+	}
+	
+     	function addAttribute(name, f){
+     		document.getElementById("fingerprint").innerHTML += 
+     		"<tr><td>" + name + "</td><td>" + f + "</td></tr>"
+     	}
+     	
+     	addAttribute("plugins", getPlugins());
+     	addAttribute("cookie enabled", navigator.cookieEnabled);
+     	addAttribute("use of local/session storage", isLocalStorageAvailable());
+     	addAttribute("timezone", (new Date()).getTimezoneOffset());
+     	addAttribute("window dimensions", getWindowSize());
+     	addAttribute("screen width", window.screen.width);
+     	addAttribute("screen height", window.screen.height);
+     	addAttribute("screen color depth", screen.colorDepth);
+     	addAttribute("platform", navigator.platform);
+     	addAttribute("do not track", navigator.doNotTrack);
+     	
+     	const gl = document.createElement("canvas").getContext("webgl");
+     	addAttribute("gl version", gl.getParameter(gl.VERSION));
+	addAttribute("gl shading language version", gl.getParameter(gl.SHADING_LANGUAGE_VERSION));
+	addAttribute("gl vendor", gl.getParameter(gl.VENDOR));
+
+     	addAttribute("referrer", document.referrer);     	
+     	addAttribute("hardware concurrency", navigator.hardwareConcurrency);
+    </script>
+</html>

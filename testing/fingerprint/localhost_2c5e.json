@@ -1,0 +1,49 @@
+{
+  "initialUrl": "http://localhost:8000/fingerprint",
+  "finalUrl": "http://localhost:8000/fingerprint",
+  "timeout": false,
+  "testStarted": 1702047997962,
+  "testFinished": 1702048003109,
+  "data": {
+    "cmps": [],
+    "screenshots": "data/testing/localhost_2c5e.jpg",
+    "close": "closed page",
+    "requests": [
+      {
+        "url": "http://localhost:8000/fingerprint",
+        "method": "GET",
+        "type": "Document",
+        "status": 200,
+        "size": 3085,
+        "remoteIPAddress": "127.0.0.1",
+        "requestHeaders": {
+          "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+          "accept-encoding": "gzip, deflate, br",
+          "connection": "keep-alive",
+          "host": "localhost:8000",
+          "sec-fetch-dest": "document",
+          "sec-fetch-mode": "navigate",
+          "sec-fetch-site": "none",
+          "sec-fetch-user": "?1",
+          "upgrade-insecure-requests": "1",
+          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.63 Safari/537.36"
+        },
+        "responseHeaders": {},
+        "responseBodyHash": "cb2b66abab67296eddfd84b525ef9e7d3ae896cdb8f2631b9d6764a0870a2a21",
+        "initiators": [],
+        "time": 0.0018009999985224567
+      }
+    ],
+    "cookies": [],
+    "apis": {
+      "callStats": {},
+      "savedCalls": []
+    },
+    "targets": [
+      {
+        "type": "page",
+        "url": "http://localhost:8000/fingerprint"
+      }
+    ]
+  }
+}
