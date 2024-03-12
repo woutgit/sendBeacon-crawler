@@ -4,3 +4,4 @@ node_modules
 data/
 summary.json
 *.pyc
+tranco_*
